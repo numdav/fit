@@ -76,8 +76,6 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      # TRUCCO: Invece di script shell, usiamo hashFiles nell'IF.
-      # Se hashFiles non trova il file, restituisce stringa vuota.
       - name: Run Hadolint
         if: hashFiles('Dockerfile') != ''
         uses: hadolint/hadolint-action@v3.1.0
@@ -94,7 +92,7 @@ jobs:
         with:
           name: hadolint-report
           path: hadolint-report.json
-  
+
   sonar-scan:
     name: Code Quality (SonarQube)
     runs-on: ubuntu-latest
@@ -105,14 +103,14 @@ jobs:
           fetch-depth: 0
 
       - name: SonarQube Scan
-        if: ${{ secrets.SONAR_TOKEN != '' && secrets.SONAR_HOST_URL != '' }}
+        if: secrets.SONAR_TOKEN != '' && secrets.SONAR_HOST_URL != ''
         uses: sonarsource/sonarqube-scan-action@master
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
 
       - name: Upload Scanner Logs
-        if: ${{ secrets.SONAR_TOKEN != '' && secrets.SONAR_HOST_URL != '' }}
+        if: secrets.SONAR_TOKEN != '' && secrets.SONAR_HOST_URL != ''
         uses: actions/upload-artifact@v4
         with:
           name: sonar-logs
