@@ -87,7 +87,7 @@ def has_new_portable_version():
     parser.read(resolve_path("assets/config.ini"))
     url = parser.get("fit_properties", "fit_latest_version_url")
 
-    with requests.get(url, stream=True, timeout=10, verify=False) as response:
+    with requests.get(url, stream=True, timeout=10, verify=True) as response:
         try:
             remote_tag_name = response.json()["tag_name"]
             local_tag_name = parser.get("fit_properties", "tag_name")
