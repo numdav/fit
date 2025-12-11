@@ -21,12 +21,10 @@ jobs:
         uses: gitleaks/gitleaks-action@v2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        continue-on-error: true
         
       - name: Run Gitleaks (Binary for Report)
         run: |
           docker run -v ${PWD}:/path zricethezav/gitleaks:latest detect --source="/path" --report-path="/path/gitleaks-report.json" --verbose --no-git
-        continue-on-error: true
 
       - name: Upload Gitleaks Report
         uses: actions/upload-artifact@v4
@@ -88,7 +86,6 @@ jobs:
           format: json
           output-file: hadolint-report.json
           failure-threshold: error
-        continue-on-error: true
 
       - name: Upload Hadolint Report
         uses: actions/upload-artifact@v4
